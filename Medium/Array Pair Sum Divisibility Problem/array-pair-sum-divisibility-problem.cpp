@@ -6,33 +6,22 @@ using namespace std;
 class Solution {
   public:
     bool canPair(vector<int> nums, int k) {
-          int n=nums.size();
-        if(n%2!=0)return false;
-        unordered_map<int,int>mp;//for storing remainder
-        int pair=0;
-        for(int i=0;i<nums.size();i++){
-             int rem=nums[i]%k;
-             if(rem==0){
-                 mp[0]++;
-                 if(mp[0]%2==0){
-                  pair++;
-                  mp[0]=mp[0]-2;
-                 }
-                 
-             }
-            else  if(mp.find(k-rem)!=mp.end() && mp[k-rem]>0){
-                   pair++;
-                   mp[k-rem]--;
-                  // if(mp[k-rem]==0)mp.erase(mp[k-rem]);
-             }
-             
-             else mp[rem]++;
-             
+         if(nums.size()&1)return false;
+        int arr[k]={0};
+        for(auto it:nums){
+            arr[it%k]+=1;
         }
-        
-        if(pair*2==n)return true;
-       
-        return false;
+        for(int i=0;i<k;i++){
+            if(i==0){
+                if(arr[i]&1)return false;
+                else continue;
+            }
+            if(i==k-i){
+                if(arr[i]&1)return false;
+            }
+            if(arr[i]!=arr[k-i])return false;
+        }
+        return true;
     }
 };
 
